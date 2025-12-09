@@ -1,0 +1,1728 @@
+diff --git a/index.html b/index.html
+index 55f53cfd21429b86bc986cf5f2a156586986a9d4..5c12f11a6bb67e1cea4b05ae02a4f4ac19cfce53 100644
+--- a/index.html
++++ b/index.html
+@@ -159,55 +159,143 @@
+       text-transform: uppercase;
+       color: var(--text-muted);
+     }
+ 
+     .chip {
+       border-radius: 999px;
+       padding: 4px 10px;
+       font-size: 0.7rem;
+       border: 1px solid var(--accent-soft);
+       background: rgba(15, 23, 42, 0.9);
+       display: inline-flex;
+       align-items: center;
+       gap: 6px;
+       color: var(--accent);
+     }
+ 
+     .chip-dot {
+       width: 7px;
+       height: 7px;
+       border-radius: 999px;
+       background: var(--accent);
+       box-shadow: 0 0 8px var(--accent-strong);
+     }
+ 
+     /* Map */
++    .map-wrapper {
++      position: relative;
++    }
++
+     #map {
+       height: 320px;
+       border-radius: 16px;
+       overflow: hidden;
+       border: 1px solid rgba(148, 163, 184, 0.28);
++      box-shadow: 0 0 30px rgba(168, 85, 247, 0.35);
++      filter: saturate(1.05) contrast(1.02);
++    }
++
++    .map-overlay {
++      position: absolute;
++      top: 10px;
++      left: 10px;
++      display: flex;
++      gap: 10px;
++      flex-wrap: wrap;
++      z-index: 5;
++    }
++
++    .map-stat {
++      border-radius: 14px;
++      padding: 10px 12px;
++      background: rgba(15, 23, 42, 0.8);
++      border: 1px solid rgba(148, 163, 184, 0.4);
++      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
++      min-width: 140px;
++    }
++
++    .map-stat-label {
++      font-size: 0.72rem;
++      color: var(--text-muted);
++      letter-spacing: 0.03em;
++      text-transform: uppercase;
++    }
++
++    .map-stat-value {
++      font-weight: 700;
++      font-size: 1rem;
++      margin-top: 4px;
++    }
++
++    .map-badge-row {
++      display: flex;
++      gap: 6px;
++      flex-wrap: wrap;
++      margin-top: 6px;
++    }
++
++    .map-badge {
++      border-radius: 999px;
++      padding: 4px 8px;
++      background: rgba(79, 70, 229, 0.16);
++      color: #c4b5fd;
++      border: 1px solid rgba(168, 85, 247, 0.45);
++      font-size: 0.72rem;
++    }
++
++    .map-action {
++      display: inline-flex;
++      align-items: center;
++      gap: 6px;
++      border-radius: 10px;
++      padding: 6px 10px;
++      border: 1px solid rgba(148, 163, 184, 0.45);
++      background: rgba(15, 23, 42, 0.8);
++      color: var(--text-main);
++      cursor: pointer;
++      font-size: 0.78rem;
++      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
++    }
++
++    .map-action:hover {
++      border-color: var(--accent);
++      box-shadow: 0 0 14px rgba(168, 85, 247, 0.8);
++    }
++
++    .bar-marker {
++      width: 14px;
++      height: 14px;
++      border-radius: 50%;
++      border: 2px solid rgba(168, 85, 247, 0.9);
++      background: radial-gradient(circle at 30% 30%, #c084fc, #6d28d9 60%, #0b0618);
++      box-shadow: 0 0 16px rgba(168, 85, 247, 0.85);
++    }
++
++    .bar-marker.active {
++      transform: scale(1.18);
++      box-shadow: 0 0 20px rgba(248, 113, 113, 0.9);
++      border-color: #f472b6;
+     }
+ 
+     @media (max-width: 900px) {
+       #map {
+         height: 260px;
+       }
+     }
+ 
+     /* Filter row */
+     .filter-row {
+       margin-top: 4px;
+       display: flex;
+       gap: 8px;
+       flex-wrap: wrap;
+       align-items: center;
+     }
+ 
+     .filter-row label {
+       font-size: 0.75rem;
+       color: var(--text-muted);
+     }
+ 
+     .filter-select {
+       background: rgba(15, 23, 42, 0.9);
+       border-radius: 999px;
+@@ -606,50 +694,145 @@
+     .modal-backdrop.show {
+       display: flex;
+     }
+ 
+     .modal {
+       background: radial-gradient(circle at top, #1f2937, #020617 70%);
+       border-radius: 18px;
+       border: 1px solid rgba(148, 163, 184, 0.4);
+       padding: 16px 18px 14px;
+       width: min(400px, 92vw);
+       box-shadow: 0 0 28px rgba(15, 23, 42, 0.9);
+     }
+ 
+     .modal-header {
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+       margin-bottom: 10px;
+     }
+ 
+     .modal-title {
+       font-size: 1rem;
+       font-weight: 600;
+     }
+ 
++    /* Discovery grid + feed */
++    .card-grid {
++      display: grid;
++      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
++      gap: 10px;
++      margin-top: 6px;
++    }
++
++    .rec-card {
++      border-radius: 12px;
++      border: 1px solid rgba(148, 163, 184, 0.25);
++      padding: 10px;
++      background: radial-gradient(circle at top left, #1b1032, #020617 70%);
++      box-shadow: 0 0 14px rgba(15, 23, 42, 0.5);
++    }
++
++    .rec-card-title {
++      font-weight: 600;
++      margin-bottom: 2px;
++    }
++
++    .rec-card-meta {
++      font-size: 0.76rem;
++      color: var(--text-muted);
++    }
++
++    .rec-card-pill {
++      display: inline-flex;
++      align-items: center;
++      gap: 6px;
++      font-size: 0.72rem;
++      padding: 4px 8px;
++      border-radius: 999px;
++      border: 1px solid var(--accent-soft);
++      color: var(--accent);
++      margin-top: 6px;
++    }
++
++    .feed-list {
++      display: flex;
++      flex-direction: column;
++      gap: 10px;
++      margin-top: 8px;
++    }
++
++    .feed-item {
++      border-radius: 12px;
++      border: 1px solid rgba(148, 163, 184, 0.25);
++      padding: 10px;
++      background: rgba(15, 23, 42, 0.85);
++      display: grid;
++      grid-template-columns: 1fr auto;
++      gap: 6px;
++      align-items: center;
++    }
++
++    .feed-primary {
++      font-weight: 600;
++      font-size: 0.9rem;
++    }
++
++    .feed-secondary {
++      font-size: 0.76rem;
++      color: var(--text-muted);
++    }
++
++    .feed-score {
++      text-align: right;
++      color: var(--accent);
++      font-weight: 700;
++    }
++
++    .steps-grid {
++      display: grid;
++      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
++      gap: 10px;
++      margin-top: 8px;
++    }
++
++    .info-step {
++      border-radius: 12px;
++      border: 1px solid rgba(148, 163, 184, 0.2);
++      padding: 10px;
++      background: rgba(15, 23, 42, 0.75);
++      font-size: 0.82rem;
++      color: var(--text-muted);
++    }
++
++    .info-step-title {
++      font-weight: 700;
++      color: var(--text-main);
++      margin-bottom: 4px;
++      font-size: 0.9rem;
++    }
++
+     .modal-close {
+       cursor: pointer;
+       font-size: 1.1rem;
+       color: var(--text-muted);
+     }
+ 
+     .auth-tabs {
+       display: flex;
+       gap: 6px;
+       margin-bottom: 8px;
+     }
+ 
+     .auth-tab {
+       flex: 1;
+       text-align: center;
+       padding: 6px 0;
+       font-size: 0.82rem;
+       border-radius: 999px;
+       border: 1px solid rgba(148, 163, 184, 0.5);
+       background: rgba(15, 23, 42, 0.9);
+       cursor: pointer;
+     }
+ 
+     .auth-tab.active {
+       border-color: var(--accent);
+@@ -684,63 +867,80 @@
+       <div class="logo-icon"></div>
+       <div>
+         <div class="logo-title">Beli for Bars</div>
+         <div class="logo-sub">Like Beli, but for NYC nightlife—rate bars, share nights.</div>
+       </div>
+     </div>
+     <div id="user-pill" class="user-pill logged-out">
+       <span class="status-dot"></span>
+       <span id="user-pill-text">Sign up / Log in</span>
+     </div>
+   </header>
+ 
+   <main>
+     <!-- LEFT: Map + bar list -->
+     <section class="left">
+       <div class="panel">
+         <div class="panel-header">
+           <div>
+             <div class="panel-title">NYC Bar Map</div>
+             <div class="chip" style="margin-top:4px;">
+               <span class="chip-dot"></span>
+               <span>Tonight’s bar scene</span>
+             </div>
+           </div>
+         </div>
+-        <div id="map"></div>
++        <div class="map-wrapper">
++          <div class="map-overlay">
++            <div class="map-stat">
++              <div class="map-stat-label">Downtown bars</div>
++              <div class="map-stat-value" id="map-count">50 spots</div>
++              <div class="map-badge-row" id="map-top-neighborhoods"></div>
++            </div>
++            <button id="reset-map-btn" class="map-action" type="button">↺ Reset view</button>
++          </div>
++          <div id="map"></div>
++        </div>
+       </div>
+ 
+       <div class="panel">
+         <div class="panel-header">
+           <div class="panel-title">Bars people are rating</div>
+           <span class="section-caption">Tap a bar to see details, photos & Beli-style ratings.</span>
+         </div>
+         <div class="filter-row">
+           <label for="neighborhood-filter">Neighborhood:</label>
+           <select id="neighborhood-filter" class="filter-select">
+             <option value="All">All neighborhoods</option>
+           </select>
++          <label for="search-input">Search bars:</label>
++          <input
++            id="search-input"
++            type="text"
++            class="filter-select"
++            placeholder="Name, vibe, neighborhood"
++          />
+         </div>
+         <div id="bar-list" class="bar-list">
+           <!-- Populated by JS -->
+         </div>
+       </div>
+     </section>
+ 
+     <!-- RIGHT: Selected bar details, rating, photos, friends -->
+     <section class="right">
+       <div class="panel" id="bar-detail-panel">
+         <div class="bar-header-line">
+           <div>
+             <div id="bar-title" class="bar-title-main">Choose a bar on the map</div>
+             <div id="bar-subline" class="bar-subline">
+               Find your next go-to NYC bar. Ratings blend your friends and the Beli for Bars community.
+             </div>
+             <div id="bar-tags" class="pill-row" style="display:none;"></div>
+             <div id="your-rating" class="your-rating" style="display:none;"></div>
+           </div>
+           <div class="bar-rating-main">
+             <div id="bar-rating-main-number" class="bar-rating-main-number">–</div>
+             <div id="bar-rating-main-label" class="bar-rating-main-label">Global rating</div>
+           </div>
+         </div>
+ 
+@@ -828,50 +1028,109 @@
+               <input id="photo-input" type="file" accept="image/*" multiple />
+               <button type="submit">Upload</button>
+               <span class="hint">Prototype: photos live only until you refresh.</span>
+             </div>
+             <div id="photo-message" class="success" style="display:none;"></div>
+           </form>
+           <div id="photo-grid" class="photo-grid"></div>
+           <div id="photo-empty" class="empty-state">No bar photos yet. Be the first.</div>
+         </div>
+ 
+         <div class="section">
+           <div class="section-title-row">
+             <div class="section-title">Friends at this bar</div>
+             <button id="discover-friends-btn" class="btn-ghost" type="button">
+               Discover people who rated this
+             </button>
+           </div>
+           <div id="friends-list" class="friends-list">
+             <!-- Populated by JS -->
+           </div>
+           <div id="friends-empty" class="empty-state">
+             Once your friends join Beli for Bars, you’ll see who loved or skipped this bar.
+           </div>
+         </div>
+       </div>
++
++      <div class="panel">
++        <div class="panel-header">
++          <div>
++            <div class="panel-title">Tonight's recommendations</div>
++            <div class="section-caption">Curated like Beli: personal picks, trending vibes, and friends' favorites.</div>
++          </div>
++          <div class="chip">
++            <span class="chip-dot"></span>
++            <span>Beta rec engine</span>
++          </div>
++        </div>
++
++        <div id="rec-grid" class="card-grid"></div>
++      </div>
++
++      <div class="panel">
++        <div class="panel-header">
++          <div>
++            <div class="panel-title">Nightlife feed</div>
++            <div class="section-caption">See where your crew went, how they rated, and who they were with.</div>
++          </div>
++          <button class="btn-ghost" type="button" id="refresh-feed">Refresh feed</button>
++        </div>
++        <div id="activity-feed" class="feed-list"></div>
++      </div>
++
++      <div class="panel">
++        <div class="panel-header">
++          <div class="panel-title">How Beli for Bars works</div>
++          <div class="section-caption">Borrowing the Beli playbook for nightlife discovery.</div>
++        </div>
++        <div class="steps-grid">
++          <div class="info-step">
++            <div class="info-step-title">1. Sign up & onboard</div>
++            <p>Pick a handle, allow location, follow friends. We start your taste profile instantly.</p>
++          </div>
++          <div class="info-step">
++            <div class="info-step-title">2. Discover bars</div>
++            <p>Explore map pins, curated lists (Trending, Hidden Gems), and search by vibe or neighborhood.</p>
++          </div>
++          <div class="info-step">
++            <div class="info-step-title">3. Rate quickly</div>
++            <p>Use Beli-style tiers (Love, Like, Okay, Skip) plus a vibe tag. One tap per visit—no long reviews.</p>
++          </div>
++          <div class="info-step">
++            <div class="info-step-title">4. Social feed</div>
++            <p>See where friends went, who joined, and their scores. FOMO-powered discovery keeps people coming back.</p>
++          </div>
++          <div class="info-step">
++            <div class="info-step-title">5. Personalized recs</div>
++            <p>We blend your ratings, friends' tastes, and similar profiles to surface bars you’ll probably love tonight.</p>
++          </div>
++          <div class="info-step">
++            <div class="info-step-title">6. Business model</div>
++            <p>Sponsored placement for bars and nightlife brands, insights on where people go, and branded collabs.</p>
++          </div>
++        </div>
++      </div>
+     </section>
+   </main>
+ 
+   <footer>
+     <span>Beli for Bars · NYC nightlife prototype</span>
+     <span>Next step: real bar data, real auth, and social feeds.</span>
+   </footer>
+ 
+   <!-- Auth modal -->
+   <div id="auth-backdrop" class="modal-backdrop">
+     <div class="modal">
+       <div class="modal-header">
+         <div class="modal-title">Welcome to Beli for Bars</div>
+         <div id="auth-close" class="modal-close">&times;</div>
+       </div>
+ 
+       <div class="auth-tabs">
+         <button id="tab-login" class="auth-tab active" type="button">Log in</button>
+         <button id="tab-signup" class="auth-tab" type="button">Sign up</button>
+       </div>
+ 
+       <form id="login-form">
+         <label for="login-username">Username</label>
+         <input id="login-username" type="text" placeholder="@username" required />
+         <label for="login-password">Password</label>
+@@ -886,355 +1145,1037 @@
+       <form id="signup-form" style="display:none;">
+         <label for="signup-username">Username</label>
+         <input id="signup-username" type="text" placeholder="@username" required />
+         <label for="signup-password">Password</label>
+         <input id="signup-password" type="password" placeholder="Create a password" required />
+         <div class="inline-row">
+           <button type="submit">Create account</button>
+           <span class="hint">Saved only on this device for this prototype.</span>
+         </div>
+         <div id="signup-message" class="success" style="display:none;"></div>
+       </form>
+ 
+       <div class="profile-chip" id="profile-chip" style="display:none;">
+         Logged in as <span id="profile-username"></span>. Your bar ratings will be tagged with this username.
+       </div>
+     </div>
+   </div>
+ 
+   <script>
+ // ------------ SUPABASE CONFIG ------------
+ const SUPABASE_URL = "https://YOUR_PROJECT_ID.supabase.co";
+ const SUPABASE_ANON_KEY = "YOUR_PUBLIC_ANON_KEY";
+ const SUPABASE_REST_URL = `${SUPABASE_URL}/rest/v1`;
+ // ----------------------------------------
+ 
+-    // --- Mock bar data: 10 example NYC bars --------------------------------
++    // --- Mock bar data: 50 downtown-centric NYC bars ------------------------
+     const bars = [
+       {
+         id: 1,
+-        name: "Mr. Purple",
++        name: "Double Chicken Please",
+         neighborhood: "Lower East Side",
+-        lat: 40.7203,
+-        lng: -73.9880,
+-        tags: ["Rooftop", "Hotel bar", "Views"],
+-        avgRating: 8.8,
+-        ratingCount: 120,
++        lat: 40.7176,
++        lng: -73.9889,
++        tags: ["Experimental", "Cocktails", "Hype"],
++        avgRating: 9.4,
++        ratingCount: 275,
+         vibes: [],
+         photos: [],
+         friends: [],
+-        ratingsByUser: {}
++        ratingsByUser: {},
+       },
+       {
+         id: 2,
+-        name: "Hair of the Dog",
+-        neighborhood: "Lower East Side",
+-        lat: 40.7187,
+-        lng: -73.9902,
+-        tags: ["College crowd", "Sports", "Rowdy"],
+-        avgRating: 7.9,
+-        ratingCount: 210,
++        name: "The Dead Rabbit",
++        neighborhood: "Financial District",
++        lat: 40.7033,
++        lng: -74.0113,
++        tags: ["Cocktails", "Irish bar", "Classic"],
++        avgRating: 9.1,
++        ratingCount: 190,
+         vibes: [],
+         photos: [],
+         friends: [],
+-        ratingsByUser: {}
++        ratingsByUser: {},
+       },
+       {
+         id: 3,
+-        name: "Pianos",
++        name: "Attaboy",
+         neighborhood: "Lower East Side",
+-        lat: 40.7217,
+-        lng: -73.9887,
+-        tags: ["Live music", "Dancing", "Upstairs lounge"],
+-        avgRating: 8.4,
+-        ratingCount: 160,
++        lat: 40.7186,
++        lng: -73.9906,
++        tags: ["Speakeasy", "Bartender's choice", "Intimate"],
++        avgRating: 9.2,
++        ratingCount: 210,
+         vibes: [],
+         photos: [],
+         friends: [],
+-        ratingsByUser: {}
++        ratingsByUser: {},
+       },
+       {
+         id: 4,
+-        name: "The Dead Rabbit",
+-        neighborhood: "Financial District",
+-        lat: 40.7033,
+-        lng: -74.0113,
+-        tags: ["Cocktails", "Irish bar", "Classic"],
+-        avgRating: 9.1,
+-        ratingCount: 190,
++        name: "Superbueno",
++        neighborhood: "East Village",
++        lat: 40.7277,
++        lng: -73.9895,
++        tags: ["Agave", "Snacks", "Vibrant"],
++        avgRating: 8.9,
++        ratingCount: 120,
+         vibes: [],
+         photos: [],
+         friends: [],
+-        ratingsByUser: {}
++        ratingsByUser: {},
+       },
+       {
+         id: 5,
+-        name: "The Garret West",
++        name: "Dante",
+         neighborhood: "West Village",
+-        lat: 40.7323,
+-        lng: -74.0025,
+-        tags: ["Speakeasy-ish", "Cocktails", "Hidden"],
+-        avgRating: 8.7,
+-        ratingCount: 95,
++        lat: 40.7287,
++        lng: -74.002,
++        tags: ["Classic", "Negroni", "Date night"],
++        avgRating: 9.3,
++        ratingCount: 230,
+         vibes: [],
+         photos: [],
+         friends: [],
+-        ratingsByUser: {}
++        ratingsByUser: {},
+       },
+       {
+         id: 6,
+-        name: "Dante",
+-        neighborhood: "West Village",
+-        lat: 40.7287,
+-        lng: -74.0020,
+-        tags: ["Classic", "Negroni", "Date night"],
+-        avgRating: 9.3,
+-        ratingCount: 230,
++        name: "Death & Co.",
++        neighborhood: "East Village",
++        lat: 40.7236,
++        lng: -73.9851,
++        tags: ["Craft cocktails", "Dim", "Destination"],
++        avgRating: 9.1,
++        ratingCount: 245,
+         vibes: [],
+         photos: [],
+         friends: [],
+-        ratingsByUser: {}
++        ratingsByUser: {},
+       },
+       {
+         id: 7,
+-        name: "Westlight",
+-        neighborhood: "Williamsburg",
+-        lat: 40.7216,
+-        lng: -73.9577,
+-        tags: ["Rooftop", "Skyline views", "Reservation"],
++        name: "Employees Only",
++        neighborhood: "West Village",
++        lat: 40.7349,
++        lng: -74.0031,
++        tags: ["Speakeasy", "Late night", "Classic"],
+         avgRating: 9.0,
+-        ratingCount: 175,
++        ratingCount: 260,
+         vibes: [],
+         photos: [],
+         friends: [],
+-        ratingsByUser: {}
++        ratingsByUser: {},
+       },
+       {
+         id: 8,
+-        name: "Union Pool",
+-        neighborhood: "Williamsburg",
+-        lat: 40.7138,
+-        lng: -73.9510,
+-        tags: ["Outdoor", "Casual", "Tacos"],
+-        avgRating: 8.2,
+-        ratingCount: 140,
++        name: "Katana Kitten",
++        neighborhood: "West Village",
++        lat: 40.7302,
++        lng: -74.0063,
++        tags: ["Highballs", "Japanese", "Fun"],
++        avgRating: 9.2,
++        ratingCount: 240,
+         vibes: [],
+         photos: [],
+         friends: [],
+-        ratingsByUser: {}
++        ratingsByUser: {},
+       },
+       {
+         id: 9,
+-        name: "Ray's Bar",
+-        neighborhood: "Lower East Side",
+-        lat: 40.7192,
+-        lng: -73.9920,
+-        tags: ["Divey", "Celebrity sightings", "Late night"],
+-        avgRating: 8.1,
+-        ratingCount: 110,
++        name: "Amor y Amargo",
++        neighborhood: "East Village",
++        lat: 40.7262,
++        lng: -73.9853,
++        tags: ["Bitters", "Amaro", "Tiny"],
++        avgRating: 8.7,
++        ratingCount: 125,
+         vibes: [],
+         photos: [],
+         friends: [],
+-        ratingsByUser: {}
++        ratingsByUser: {},
+       },
+       {
+         id: 10,
+-        name: "Kind Regards",
+-        neighborhood: "Lower East Side",
+-        lat: 40.7211,
+-        lng: -73.9896,
+-        tags: ["Basement dance", "Date night", "Crowded"],
+-        avgRating: 8.5,
++        name: "Overstory",
++        neighborhood: "Financial District",
++        lat: 40.7061,
++        lng: -74.0081,
++        tags: ["Skyline", "High-end", "Reservations"],
++        avgRating: 9.3,
+         ratingCount: 180,
+         vibes: [],
+         photos: [],
+         friends: [],
+-        ratingsByUser: {}
++        ratingsByUser: {},
+       },
+-    ];
+-
+-    const mockPossibleFriends = [
+-      "Sofia R.",
+-      "Eli M.",
+-      "Jules K.",
+-      "Alex T.",
+-      "Jordan P.",
+-      "Maya L.",
+-    ];
+-
+-    let selectedBarId = null;
+-    let map;
+-    let markers = [];
+-    let currentUser = null;
+-    let selectedTier = null; // { label, score }
+-    let currentNeighborhoodFilter = "All";
+-
+-    // --- Auth helpers -------------------------------------------------------
+-    const USER_STORAGE_KEY = "beliforbars-user";
+-
+-    function loadUserFromStorage() {
+-      try {
+-        const raw = localStorage.getItem(USER_STORAGE_KEY);
+-        if (!raw) return null;
+-        return JSON.parse(raw);
+-      } catch {
+-        return null;
+-      }
+-    }
+-
+-    function saveUserToStorage(user) {
+-      try {
+-        localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
+-      } catch {}
+-    }
+-
++      {
++        id: 11,
++        name: "Bemelmans Bar",
++        neighborhood: "Upper East Side",
++        lat: 40.7729,
++        lng: -73.9634,
++        tags: ["Iconic", "Live piano", "Hotel"],
++        avgRating: 9.0,
++        ratingCount: 220,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 12,
++        name: "Clover Club",
++        neighborhood: "Cobble Hill",
++        lat: 40.6858,
++        lng: -73.9926,
++        tags: ["Brooklyn", "Classics", "Brunch"],
++        avgRating: 8.8,
++        ratingCount: 190,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 13,
++        name: "The Long Island Bar",
++        neighborhood: "Cobble Hill",
++        lat: 40.6898,
++        lng: -73.9952,
++        tags: ["Brooklyn", "Retro", "Neon"],
++        avgRating: 8.6,
++        ratingCount: 160,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 14,
++        name: "Mace",
++        neighborhood: "NoHo",
++        lat: 40.7267,
++        lng: -73.9898,
++        tags: ["Spice", "Cocktails", "Seasonal"],
++        avgRating: 8.9,
++        ratingCount: 175,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 15,
++        name: "Angel's Share",
++        neighborhood: "East Village",
++        lat: 40.7289,
++        lng: -73.9872,
++        tags: ["Japanese", "Speakeasy", "Intimate"],
++        avgRating: 9.0,
++        ratingCount: 210,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 16,
++        name: "Brandy Library",
++        neighborhood: "Tribeca",
++        lat: 40.7199,
++        lng: -74.0096,
++        tags: ["Whiskey", "Lounge", "Cozy"],
++        avgRating: 8.7,
++        ratingCount: 140,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 17,
++        name: "Dutch Kills",
++        neighborhood: "Long Island City",
++        lat: 40.7464,
++        lng: -73.9422,
++        tags: ["Queens", "Stirred", "Ice program"],
++        avgRating: 8.5,
++        ratingCount: 150,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 18,
++        name: "Dear Irving on Hudson",
++        neighborhood: "Midtown West",
++        lat: 40.759,
++        lng: -73.991,
++        tags: ["Views", "Reservations", "Cocktails"],
++        avgRating: 8.6,
++        ratingCount: 130,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 19,
++        name: "The Rum House",
++        neighborhood: "Times Square",
++        lat: 40.7584,
++        lng: -73.9856,
++        tags: ["Rum", "Live piano", "Hotel bar"],
++        avgRating: 8.2,
++        ratingCount: 180,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 20,
++        name: "Pegu Club",
++        neighborhood: "SoHo",
++        lat: 40.7268,
++        lng: -74.0024,
++        tags: ["Gin", "Classic", "Lounge"],
++        avgRating: 8.8,
++        ratingCount: 170,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 21,
++        name: "The Up & Up",
++        neighborhood: "Greenwich Village",
++        lat: 40.7307,
++        lng: -73.9998,
++        tags: ["Cocktails", "Cozy", "Date night"],
++        avgRating: 8.9,
++        ratingCount: 105,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 22,
++        name: "Maison Premiere",
++        neighborhood: "Williamsburg",
++        lat: 40.7139,
++        lng: -73.9617,
++        tags: ["Oysters", "Absinthe", "Garden"],
++        avgRating: 8.9,
++        ratingCount: 210,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 23,
++        name: "Leyenda",
++        neighborhood: "Carroll Gardens",
++        lat: 40.6816,
++        lng: -73.9964,
++        tags: ["Agave", "Latin", "Patio"],
++        avgRating: 8.5,
++        ratingCount: 160,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 24,
++        name: "Bar Goto",
++        neighborhood: "Lower East Side",
++        lat: 40.7216,
++        lng: -73.9891,
++        tags: ["Japanese", "Cocktails", "Minimal"],
++        avgRating: 8.9,
++        ratingCount: 140,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 25,
++        name: "Little Branch",
++        neighborhood: "West Village",
++        lat: 40.7363,
++        lng: -74.0072,
++        tags: ["Jazz", "Speakeasy", "Stirred"],
++        avgRating: 8.7,
++        ratingCount: 150,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 26,
++        name: "Please Don't Tell",
++        neighborhood: "East Village",
++        lat: 40.7265,
++        lng: -73.9834,
++        tags: ["Speakeasy", "Hot dog phone booth", "Reservations"],
++        avgRating: 9.0,
++        ratingCount: 200,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 27,
++        name: "The Jane Ballroom",
++        neighborhood: "West Village",
++        lat: 40.7383,
++        lng: -74.0091,
++        tags: ["Dancing", "Hotel", "Scene"],
++        avgRating: 8.1,
++        ratingCount: 175,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 28,
++        name: "The Blond",
++        neighborhood: "SoHo",
++        lat: 40.7219,
++        lng: -73.9965,
++        tags: ["Lounge", "Hotel", "DJ"],
++        avgRating: 7.9,
++        ratingCount: 140,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 29,
++        name: "Le Bain",
++        neighborhood: "Meatpacking",
++        lat: 40.7401,
++        lng: -74.0072,
++        tags: ["Rooftop", "Club", "Hudson"],
++        avgRating: 8.2,
++        ratingCount: 210,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 30,
++        name: "The Flower Shop",
++        neighborhood: "Lower East Side",
++        lat: 40.7196,
++        lng: -73.9906,
++        tags: ["Aussie", "Retro", "Basement"],
++        avgRating: 8.4,
++        ratingCount: 160,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 31,
++        name: "Hotel Delmano",
++        neighborhood: "Williamsburg",
++        lat: 40.7206,
++        lng: -73.9599,
++        tags: ["Brooklyn", "Date night", "Raw bar"],
++        avgRating: 8.5,
++        ratingCount: 140,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 32,
++        name: "The Garret West",
++        neighborhood: "West Village",
++        lat: 40.7323,
++        lng: -74.0025,
++        tags: ["Speakeasy-ish", "Cocktails", "Hidden"],
++        avgRating: 8.7,
++        ratingCount: 95,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 33,
++        name: "The Back Room",
++        neighborhood: "Lower East Side",
++        lat: 40.7209,
++        lng: -73.9901,
++        tags: ["Speakeasy", "Tea cups", "Historic"],
++        avgRating: 8.2,
++        ratingCount: 150,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 34,
++        name: "The Roof at Public Hotel",
++        neighborhood: "Lower East Side",
++        lat: 40.7215,
++        lng: -73.9917,
++        tags: ["Rooftop", "Views", "DJ"],
++        avgRating: 8.1,
++        ratingCount: 155,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 35,
++        name: "The Polynesian",
++        neighborhood: "Midtown West",
++        lat: 40.7602,
++        lng: -73.9888,
++        tags: ["Tiki", "Large format", "Patio"],
++        avgRating: 8.0,
++        ratingCount: 130,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 36,
++        name: "Beauty & Essex",
++        neighborhood: "Lower East Side",
++        lat: 40.7203,
++        lng: -73.9893,
++        tags: ["Restaurant bar", "Champagne", "Scene"],
++        avgRating: 8.0,
++        ratingCount: 165,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 37,
++        name: "PHD Rooftop",
++        neighborhood: "Meatpacking",
++        lat: 40.7416,
++        lng: -74.0072,
++        tags: ["Rooftop", "Bottle service", "Hudson"],
++        avgRating: 7.8,
++        ratingCount: 190,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 38,
++        name: "McSorley's Old Ale House",
++        neighborhood: "East Village",
++        lat: 40.7282,
++        lng: -73.9896,
++        tags: ["Historic", "Ale", "Saw dust"],
++        avgRating: 8.0,
++        ratingCount: 300,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 39,
++        name: "Rudy's Bar & Grill",
++        neighborhood: "Hell's Kitchen",
++        lat: 40.7604,
++        lng: -73.9913,
++        tags: ["Dive", "Free hot dogs", "Cash"],
++        avgRating: 7.7,
++        ratingCount: 210,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 40,
++        name: "Subject",
++        neighborhood: "Lower East Side",
++        lat: 40.7185,
++        lng: -73.9902,
++        tags: ["Cocktails", "Relaxed", "Neighborhood"],
++        avgRating: 8.4,
++        ratingCount: 120,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 41,
++        name: "The Spaniard",
++        neighborhood: "West Village",
++        lat: 40.7331,
++        lng: -74.0036,
++        tags: ["Whiskey", "Cocktails", "Buzzy"],
++        avgRating: 8.6,
++        ratingCount: 170,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 42,
++        name: "The DL",
++        neighborhood: "Lower East Side",
++        lat: 40.7187,
++        lng: -73.9897,
++        tags: ["Rooftop", "Club", "Open-air"],
++        avgRating: 7.9,
++        ratingCount: 150,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 43,
++        name: "Kind Regards",
++        neighborhood: "Lower East Side",
++        lat: 40.7211,
++        lng: -73.9896,
++        tags: ["Basement dance", "Date night", "Crowded"],
++        avgRating: 8.5,
++        ratingCount: 180,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 44,
++        name: "Mr. Purple",
++        neighborhood: "Lower East Side",
++        lat: 40.7203,
++        lng: -73.988,
++        tags: ["Rooftop", "Hotel bar", "Views"],
++        avgRating: 8.8,
++        ratingCount: 120,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 45,
++        name: "The Standard Biergarten",
++        neighborhood: "Meatpacking",
++        lat: 40.7406,
++        lng: -74.0075,
++        tags: ["Beer", "Pretzels", "Lively"],
++        avgRating: 7.8,
++        ratingCount: 220,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 46,
++        name: "The Press Lounge",
++        neighborhood: "Hell's Kitchen",
++        lat: 40.7632,
++        lng: -73.9927,
++        tags: ["Rooftop", "River views", "Date night"],
++        avgRating: 8.4,
++        ratingCount: 150,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 47,
++        name: "Temple Bar",
++        neighborhood: "NoHo",
++        lat: 40.7266,
++        lng: -73.9962,
++        tags: ["Martinis", "Date night", "Velvet booths"],
++        avgRating: 8.8,
++        ratingCount: 160,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 48,
++        name: "Ear Inn",
++        neighborhood: "SoHo",
++        lat: 40.7266,
++        lng: -74.0095,
++        tags: ["Historic", "Casual", "Neighborhood"],
++        avgRating: 8.3,
++        ratingCount: 150,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 49,
++        name: "Ray's Bar",
++        neighborhood: "Lower East Side",
++        lat: 40.7192,
++        lng: -73.992,
++        tags: ["Divey", "Celebrity sightings", "Late night"],
++        avgRating: 8.1,
++        ratingCount: 110,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++      {
++        id: 50,
++        name: "Hair of the Dog",
++        neighborhood: "Lower East Side",
++        lat: 40.7187,
++        lng: -73.9902,
++        tags: ["College crowd", "Sports", "Rowdy"],
++        avgRating: 7.9,
++        ratingCount: 210,
++        vibes: [],
++        photos: [],
++        friends: [],
++        ratingsByUser: {},
++      },
++    ];
++
++    const mockPossibleFriends = [
++      "Sofia R.",
++      "Eli M.",
++      "Jules K.",
++      "Alex T.",
++      "Jordan P.",
++      "Maya L.",
++    ];
++
++    let selectedBarId = null;
++    let map;
++    let markers = [];
++    let currentUser = null;
++    let selectedTier = null; // { label, score }
++    let currentNeighborhoodFilter = "All";
++    let currentSearchTerm = "";
++    let visibleBarIds = [];
++
++    const defaultMapCenter = [40.72, -73.99];
++    const defaultMapZoom = 12.5;
++
++    const baseMarkerIcon = (isActive = false) =>
++      L.divIcon({
++        className: `bar-marker${isActive ? " active" : ""}`,
++        iconSize: isActive ? [18, 18] : [14, 14],
++        iconAnchor: isActive ? [9, 9] : [7, 7],
++      });
++
++      const tonightRecs = [
++        { name: "Dante", reason: "Matches your love for Negronis", vibe: "Date night • Classic", score: 9.3 },
++        { name: "Temple Bar", reason: "Martini-first and velvet booths", vibe: "Martinis • NoHo", score: 8.8 },
++        { name: "Attaboy", reason: "Friends saved it as a go-to speakeasy", vibe: "LES • Bartender's choice", score: 9.2 },
++        { name: "Le Bain", reason: "Rooftop energy with Hudson views", vibe: "Meatpacking • Rooftop", score: 8.2 },
++      ];
++
++      const activityFeedEntries = [
++        { user: "Maya", bar: "The Garret West", score: 9.0, vibe: "Hidden upstairs", friends: "date night" },
++        { user: "Alex", bar: "Ray's Bar", score: 7.8, vibe: "Late-night dive", friends: "with crew" },
++        { user: "Sofia", bar: "Attaboy", score: 9.4, vibe: "Dealer's choice", friends: "solo" },
++        { user: "Jules", bar: "Superbueno", score: 8.6, vibe: "Agave + snacks", friends: "with Maya" },
++      ];
++
++    // --- Auth helpers -------------------------------------------------------
++    const USER_STORAGE_KEY = "beliforbars-user";
++
++    function loadUserFromStorage() {
++      try {
++        const raw = localStorage.getItem(USER_STORAGE_KEY);
++        if (!raw) return null;
++        return JSON.parse(raw);
++      } catch {
++        return null;
++      }
++    }
++
++    function saveUserToStorage(user) {
++      try {
++        localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(user));
++      } catch {}
++    }
++
+     function clearUserFromStorage() {
+       try {
+         localStorage.removeItem(USER_STORAGE_KEY);
+       } catch {}
+     }
+ 
++    function shuffleArray(arr) {
++      return arr
++        .map((item) => ({ item, sort: Math.random() }))
++        .sort((a, b) => a.sort - b.sort)
++        .map(({ item }) => item);
++    }
++
+     function updateUserUI() {
+       const pill = document.getElementById("user-pill");
+       const text = document.getElementById("user-pill-text");
+       const profileChip = document.getElementById("profile-chip");
+       const profileUsername = document.getElementById("profile-username");
+ 
+       if (currentUser) {
+         pill.classList.remove("logged-out");
+         text.textContent = currentUser.username;
+         if (profileChip && profileUsername) {
+           profileUsername.textContent = currentUser.username;
+           profileChip.style.display = "block";
+         }
+       } else {
+         pill.classList.add("logged-out");
+         text.textContent = "Sign up / Log in";
+         if (profileChip) profileChip.style.display = "none";
+       }
+     }
+ 
+     // --- Map setup ----------------------------------------------------------
+     function initMap() {
+-      map = L.map("map").setView([40.72, -73.99], 12);
++      map = L.map("map", { zoomControl: false }).setView(
++        defaultMapCenter,
++        defaultMapZoom
++      );
++
++      L.tileLayer(
++        "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",
++        {
++          maxZoom: 19,
++          attribution: "&copy; OpenStreetMap & CARTO",
++        }
++      ).addTo(map);
+ 
+-      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+-        maxZoom: 19,
+-        attribution: "&copy; OpenStreetMap",
+-      }).addTo(map);
++      L.control.zoom({ position: "bottomright" }).addTo(map);
+ 
+       bars.forEach((bar) => {
+-        const marker = L.marker([bar.lat, bar.lng])
++        const marker = L.marker([bar.lat, bar.lng], {
++          icon: baseMarkerIcon(false),
++          riseOnHover: true,
++        })
+           .addTo(map)
+           .bindPopup(
+             `<strong>${bar.name}</strong><br /><span style="font-size:12px;">${bar.neighborhood}</span><br /><span style="font-size:12px;color:#a855f7;">Rating: ${bar.avgRating.toFixed(
+               1
+             )}</span>`
+           );
+         marker.on("click", () => selectBar(bar.id));
+         markers.push({ id: bar.id, marker });
+       });
++
++      visibleBarIds = bars.map((b) => b.id);
++    }
++
++    function updateMarkerActiveState(visibleIds = null) {
++      markers.forEach(({ id, marker }) => {
++        const isActive = id === selectedBarId;
++        marker.setIcon(baseMarkerIcon(isActive));
++        const el = marker.getElement();
++        if (el) {
++          const isDimmed = visibleIds && !visibleIds.includes(id);
++          el.style.opacity = isDimmed ? "0.35" : "1";
++        }
++      });
++    }
++
++    function refreshMapOverlay(filteredBars) {
++      const countEl = document.getElementById("map-count");
++      const badgesEl = document.getElementById("map-top-neighborhoods");
++      if (!countEl || !badgesEl) return;
++
++      const total = filteredBars.length;
++      countEl.textContent = `${total} spot${total === 1 ? "" : "s"}`;
++
++      const neighborhoodCounts = filteredBars.reduce((acc, bar) => {
++        acc[bar.neighborhood] = (acc[bar.neighborhood] || 0) + 1;
++        return acc;
++      }, {});
++
++      const topHoods = Object.entries(neighborhoodCounts)
++        .sort((a, b) => b[1] - a[1])
++        .slice(0, 3);
++
++      badgesEl.innerHTML = "";
++      if (!topHoods.length) {
++        const badge = document.createElement("div");
++        badge.className = "map-badge";
++        badge.textContent = "No matches";
++        badgesEl.appendChild(badge);
++        return;
++      }
++
++      topHoods.forEach(([name, count]) => {
++        const badge = document.createElement("div");
++        badge.className = "map-badge";
++        badge.textContent = `${name} • ${count}`;
++        badgesEl.appendChild(badge);
++      });
+     }
+ 
+     // --- Neighborhood filter -----------------------------------------------
+     function initNeighborhoodFilter() {
+       const select = document.getElementById("neighborhood-filter");
+       const neighborhoods = Array.from(
+         new Set(bars.map((b) => b.neighborhood))
+       ).sort();
+ 
+       neighborhoods.forEach((n) => {
+         const opt = document.createElement("option");
+         opt.value = n;
+         opt.textContent = n;
+         select.appendChild(opt);
+       });
+ 
+       select.addEventListener("change", () => {
+         currentNeighborhoodFilter = select.value;
+         renderBarList();
+       });
++
++      const searchInput = document.getElementById("search-input");
++      if (searchInput) {
++        searchInput.addEventListener("input", () => {
++          currentSearchTerm = searchInput.value;
++          renderBarList();
++        });
++      }
++
++      const resetBtn = document.getElementById("reset-map-btn");
++      if (resetBtn) {
++        resetBtn.addEventListener("click", () => {
++          if (map) {
++            map.setView(defaultMapCenter, defaultMapZoom, { animate: true });
++          }
++        });
++      }
+     }
+ 
+     // --- Bar list UI --------------------------------------------------------
+     function renderBarList() {
+       const listEl = document.getElementById("bar-list");
+       listEl.innerHTML = "";
+ 
+-      const filteredBars =
++      const filteredByNeighborhood =
+         currentNeighborhoodFilter === "All"
+           ? bars
+           : bars.filter((b) => b.neighborhood === currentNeighborhoodFilter);
+ 
++      const searchTerm = currentSearchTerm.trim().toLowerCase();
++      const filteredBars = searchTerm
++        ? filteredByNeighborhood.filter((b) => {
++            const haystack = `${b.name} ${b.neighborhood} ${b.tags.join(" ")}`.toLowerCase();
++            return haystack.includes(searchTerm);
++          })
++        : filteredByNeighborhood;
++
++      visibleBarIds = filteredBars.map((b) => b.id);
++      refreshMapOverlay(filteredBars);
++      updateMarkerActiveState(visibleBarIds);
++
+       if (!filteredBars.length) {
+         const empty = document.createElement("div");
+         empty.className = "empty-state";
+         empty.textContent = "No bars found for this neighborhood.";
+         listEl.appendChild(empty);
+         return;
+       }
+ 
+       filteredBars.forEach((bar) => {
+         const card = document.createElement("div");
+         card.className = "bar-card";
+         card.dataset.id = bar.id;
+ 
+         card.innerHTML = `
+           <div class="bar-meta">
+             <div class="bar-name">${bar.name}</div>
+             <div class="bar-neighborhood">${bar.neighborhood}</div>
+             <div class="bar-tags">${bar.tags.join(" • ")}</div>
+           </div>
+           <div class="bar-rating">
+             <div class="rating-number">${bar.avgRating.toFixed(1)}</div>
+             <div class="rating-caption">${bar.ratingCount} ratings</div>
+           </div>
+         `;
+ 
+         card.addEventListener("click", () => selectBar(bar.id));
+         listEl.appendChild(card);
+       });
+ 
+       updateActiveBarCard();
+     }
+ 
+     function updateActiveBarCard() {
+       const cards = document.querySelectorAll(".bar-card");
+       cards.forEach((card) => {
+         const id = Number(card.dataset.id);
+         if (id === selectedBarId) {
+           card.classList.add("active");
+         } else {
+           card.classList.remove("active");
+         }
+       });
+     }
+ 
+     // --- Select bar + render details ---------------------------------------
+     function selectBar(id) {
+       selectedBarId = id;
+       updateActiveBarCard();
++      updateMarkerActiveState(visibleBarIds);
+       const bar = bars.find((b) => b.id === id);
+       if (!bar) return;
+ 
+       // Move map to bar
+       if (map) {
+         map.setView([bar.lat, bar.lng], 14, { animate: true });
+       }
+ 
+       // Title + subtitle
+       const titleEl = document.getElementById("bar-title");
+       const sublineEl = document.getElementById("bar-subline");
+       const ratingNumberEl = document.getElementById("bar-rating-main-number");
+       const tagsContainer = document.getElementById("bar-tags");
+       const yourRatingEl = document.getElementById("your-rating");
+ 
+       titleEl.textContent = bar.name;
+       sublineEl.textContent = `${bar.neighborhood} · ${bar.tags
+         .slice(0, 3)
+         .join(" • ")} · ${bar.ratingCount} global ratings`;
+ 
+       ratingNumberEl.textContent =
+         bar.ratingCount > 0 ? bar.avgRating.toFixed(1) : "–";
+ 
+       // Tags
+       tagsContainer.innerHTML = "";
+@@ -1546,42 +2487,83 @@ const SUPABASE_REST_URL = `${SUPABASE_URL}/rest/v1`;
+ 
+         setTimeout(() => {
+           closeModal();
+         }, 800);
+       });
+ 
+       loginForm.addEventListener("submit", (e) => {
+         e.preventDefault();
+         const username = document.getElementById("login-username").value.trim();
+         const password = document.getElementById("login-password").value.trim();
+         if (!username || !password) return;
+ 
+         // Prototype: accept anything
+         currentUser = { username };
+         saveUserToStorage(currentUser);
+         updateUserUI();
+         loginMessage.textContent = "Logged in. Let’s rate some bars.";
+         loginMessage.style.display = "block";
+ 
+         setTimeout(() => {
+           closeModal();
+         }, 800);
+       });
+     }
+ 
++    // --- Recommendations & feed --------------------------------------------
++    function renderRecGrid() {
++      const grid = document.getElementById("rec-grid");
++      grid.innerHTML = "";
++      tonightRecs.forEach((rec) => {
++        const card = document.createElement("div");
++        card.className = "rec-card";
++        card.innerHTML = `
++          <div class="rec-card-title">${rec.name}</div>
++          <div class="rec-card-meta">${rec.reason}</div>
++          <div class="rec-card-pill">🔥 ${rec.vibe}</div>
++          <div class="feed-score" style="margin-top:6px;">${rec.score.toFixed(1)}</div>
++        `;
++        grid.appendChild(card);
++      });
++    }
++
++    function renderFeed(entries = activityFeedEntries) {
++      const feed = document.getElementById("activity-feed");
++      feed.innerHTML = "";
++      entries.forEach((item) => {
++        const row = document.createElement("div");
++        row.className = "feed-item";
++        row.innerHTML = `
++          <div>
++            <div class="feed-primary">${item.user} rated ${item.bar}</div>
++            <div class="feed-secondary">${item.vibe} · ${item.friends}</div>
++          </div>
++          <div class="feed-score">${item.score.toFixed(1)}</div>
++        `;
++        feed.appendChild(row);
++      });
++    }
++
+     // --- Init ----------------------------------------------------------------
+     document.addEventListener("DOMContentLoaded", () => {
+       currentUser = loadUserFromStorage();
+       updateUserUI();
+ 
+       initMap();
+       initNeighborhoodFilter();
+       renderBarList();
+       setupRatingForm();
+       setupPhotoForm();
+       setupFriendsDiscover();
+       setupAuth();
++      renderRecGrid();
++      renderFeed();
++
++      const refreshBtn = document.getElementById("refresh-feed");
++      refreshBtn.addEventListener("click", () => {
++        renderFeed(shuffleArray(activityFeedEntries));
++      });
+     });
+   </script>
+ </body>
+ </html>
+ 
